@@ -22,7 +22,7 @@ def run_queries():
         print(f"No library found with name: {library_name}")
 
     try:
-        librarian = Librarian.objects.get(library)
+        librarian = Librarian.objects.get(library=library)
         print(f"\n👤 Librarian of {library_name}: {librarian.name}")
     except:
         print("Couldn't find the librarian for that library.")
