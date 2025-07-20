@@ -8,6 +8,6 @@ urlpatterns = [
     path('books/', list_books, name='list_books'),  # FBV
     path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),  # CBV
     path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout/', LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
     path('register/', views.register_view, name='register'),
 ]
