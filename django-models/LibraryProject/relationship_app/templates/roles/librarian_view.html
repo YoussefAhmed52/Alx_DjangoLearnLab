@@ -1,0 +1,18 @@
+<!-- templates/roles/librarian_view.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Librarian Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, Librarian!</h1>
+    <p>This page is for librarian users only.</p>
+
+    <ul>
+        <li><a href="{% url 'admin_view' %}">Go to Admin View</a></li>
+        <li><a href="{% url 'member_view' %}">Go to Member View</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+</body>
+</html>
