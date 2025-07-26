@@ -27,7 +27,7 @@ def role_required(role_name):
     return decorator
 
 
-@user_passes_test('Admin')
+@user_passes_test('is_admin')
 def admin_view(request):
     return render(request, 'roles/admin_view.html')
 
