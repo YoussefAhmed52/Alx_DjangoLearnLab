@@ -26,8 +26,17 @@ def role_required(role_name):
         return wrapper
     return decorator
 
+def is_admin(user):
+    return user.is_authenticated and user.userprofile.role == 'Admin'
 
-@user_passes_test('is_admin')
+def is_librarian(user):
+    return user.is_authenticated and user.userprofile.role == 'Librarian'
+
+def is_member(user):
+    return user.is_authenticated and user.userprofile.role == 'Member'
+
+
+@user_passes_test('Admin')
 def admin_view(request):
     return render(request, 'roles/admin_view.html')
 
