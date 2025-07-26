@@ -35,7 +35,7 @@ def is_member(user):
 
 
 @user_passes_test('Admin')
-def admin_view(request , user):
+def Admin(request , user):
     if user.is_authenticated and user.userprofile.role == 'Admin':
         
         return render(request, 'roles/admin_view.html')
