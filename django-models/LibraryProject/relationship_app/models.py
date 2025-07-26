@@ -16,7 +16,7 @@ class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.name
+        return self.title
     
 class Library(models.Model):
     name = models.CharField(max_length=100)
