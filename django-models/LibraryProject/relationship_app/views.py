@@ -12,25 +12,25 @@ from django.contrib.auth.decorators import permission_required
 from django.shortcuts import get_object_or_404
 
 
-def is_admin(user):
+def Admin(user):
     return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
 
-def is_librarian(user):
+def Librarian(user):
     return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Librarian'
 
-def is_member(user):
+def Member(user):
     return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
 
-@user_passes_test(is_admin)
-def Admin(request):
+@user_passes_test(Admin)
+def admin_view(request):
     return render(request, 'roles/admin_view.html')
 
-@user_passes_test(is_librarian)
-def Librarian(request):
+@user_passes_test(Librarian)
+def librarian_view(request):
     return render(request, 'roles/librarian_view.html')
 
-@user_passes_test(is_member)
-def Member(request):
+@user_passes_test(Member)
+def member_view(request):
     return render(request, 'roles/member_view.html')
 
 
