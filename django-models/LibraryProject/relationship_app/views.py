@@ -51,4 +51,8 @@ class LibraryDetailView(DetailView):
     model = Library
     template_name = 'relationship_app/library_detail.html'
     context_object_name = 'library'
+    
+class UserProfile():
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
 # Create your views here.
