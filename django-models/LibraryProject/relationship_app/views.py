@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required , user_passes_test
 from django.http import HttpResponseForbidden
 from .models import UserProfile
 
@@ -27,29 +27,22 @@ def role_required(role_name):
     return decorator
 
 
-@login_required
-@role_required('Admin')
+@user_passes_test('Admin')
 def admin_view(request):
     return render(request, 'roles/admin_view.html')
 
 
-@login_required
-@role_required('Librarian')
+@user_passes_test('Librarian')
 def librarian_view(request):
     return render(request, 'roles/librarian_view.html')
 
 
-@login_required
-@role_required('Member')
+@user_passes_test('Member')
 def member_view(request):
     return render(request, 'roles/member_view.html')
 
-class SignUpView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
 
-# Register View
+
 def register_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)

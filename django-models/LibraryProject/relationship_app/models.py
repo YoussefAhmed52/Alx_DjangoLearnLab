@@ -31,7 +31,8 @@ class Librarian(models.Model):
     
     def __str__(self):
         return self.name
-    
+
+@user_passes_test
 class UserProfile(models.Model):
     ROLE_CHOICES = [
         ('Admin', 'Admin'),
