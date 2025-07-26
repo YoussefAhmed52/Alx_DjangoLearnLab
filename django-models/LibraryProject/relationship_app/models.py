@@ -46,8 +46,8 @@ class UserProfile(models.Model):
         return f"{self.user.username} - {self.role}"
     
 
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            from .models import UserProfile  # Import here to avoid circular import
-            UserProfile.objects.create(user=instance)
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
 # Create your models here.
