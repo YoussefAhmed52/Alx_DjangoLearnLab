@@ -2,30 +2,15 @@ from django.shortcuts import render, redirect
 from .models import Library , Book
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required , user_passes_test
-from django.http import HttpResponseForbidden
-from .models import UserProfile
+from django.contrib.auth.decorators import user_passes_test
 
-# Helper decorator to check roles
-def role_required(role_name):
-    def decorator(view_func):
-        def wrapper(request, *args, **kwargs):
-            if not request.user.is_authenticated:
-                return HttpResponseForbidden("You are not logged in.")
-            if not hasattr(request.user, 'userprofile'):
-                return HttpResponseForbidden("No profile found.")
-            if request.user.userprofile.role != role_name:
-                return HttpResponseForbidden(f"You must be a {role_name} to access this page.")
-            return view_func(request, *args, **kwargs)
-        return wrapper
-    return decorator
 
+
+def is_admin(user):
+    return user.is_authenticated and user.userprofile.role == 'Admin'
 
 def is_librarian(user):
     return user.is_authenticated and user.userprofile.role == 'Librarian'
@@ -34,21 +19,17 @@ def is_member(user):
     return user.is_authenticated and user.userprofile.role == 'Member'
 
 
-@user_passes_test('Admin')
-def Admin(request , user):
-    if user.is_authenticated and user.userprofile.role == 'Admin':
-        
-        return render(request, 'roles/admin_view.html')
-    else:
-        return f"You Are Not Allowed"
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'roles/admin_view.html')
 
 
-@user_passes_test('Librarian')
+@user_passes_test(is_librarian)
 def librarian_view(request):
     return render(request, 'roles/librarian_view.html')
 
 
-@user_passes_test('Member')
+@user_passes_test(is_member)
 def member_view(request):
     return render(request, 'roles/member_view.html')
 
