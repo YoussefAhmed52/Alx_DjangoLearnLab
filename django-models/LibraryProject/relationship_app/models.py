@@ -32,7 +32,6 @@ class Librarian(models.Model):
     def __str__(self):
         return self.name
 
-@user_passes_test
 class UserProfile(models.Model):
     ROLE_CHOICES = [
         ('Admin', 'Admin'),
@@ -46,12 +45,9 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.role}"
     
-    
-    
-    
-@receiver
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        from .models import UserProfile  # Import here to avoid circular import
-        UserProfile.objects.create(user=instance)
+
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            from .models import UserProfile  # Import here to avoid circular import
+            UserProfile.objects.create(user=instance)
 # Create your models here.
