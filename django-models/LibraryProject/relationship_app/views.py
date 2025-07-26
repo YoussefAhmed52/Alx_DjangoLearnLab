@@ -22,15 +22,15 @@ def is_member(user):
     return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
 
 @user_passes_test(is_admin)
-def admin_view(request):
+def Admin(request):
     return render(request, 'roles/admin_view.html')
 
 @user_passes_test(is_librarian)
-def librarian_view(request):
+def Librarian(request):
     return render(request, 'roles/librarian_view.html')
 
 @user_passes_test(is_member)
-def member_view(request):
+def Member(request):
     return render(request, 'roles/member_view.html')
 
 
