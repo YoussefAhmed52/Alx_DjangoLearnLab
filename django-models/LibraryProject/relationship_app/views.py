@@ -11,7 +11,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import permission_required , login_required
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
-
+from .models import UserProfile
 
 def is_admin(user):
     
@@ -19,7 +19,7 @@ def is_admin(user):
         return False
     try:
         return user.userprofile.role == 'Admin'
-    except:
+    except UserProfile.DoesNotExist:
         return False
 
 def is_librarian(user):
@@ -28,7 +28,7 @@ def is_librarian(user):
         return False
     try:
         return user.userprofile.role == 'Librarian'
-    except:
+    except UserProfile.DoesNotExist:
         return False
 
 def is_member(user):
@@ -37,33 +37,27 @@ def is_member(user):
         return False
     try:
         return user.userprofile.role == 'Member'
-    except:
+    except UserProfile.DoesNotExist:
         return False
 
-# --- Role-Based Views ---
 
 @login_required
-@user_passes_test(is_admin, login_url='/forbidden/')
+@user_passes_test(is_admin)
 def admin_view(request):
     
     return render(request, 'admin_view.html')
 
 @login_required
-@user_passes_test(is_librarian, login_url='/forbidden/')
+@user_passes_test(is_librarian)
 def librarian_view(request):
     
     return render(request, 'librarian_view.html')
 
 @login_required
-@user_passes_test(is_member, login_url='/forbidden/')
+@user_passes_test(is_member)
 def member_view(request):
     
     return render(request, 'member_view.html')
-
-def forbidden_view(request):
-    
-    return render(request, 'forbidden.html')
-
 
 
 def register_view(request):
