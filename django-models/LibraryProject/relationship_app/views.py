@@ -8,30 +8,61 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required , login_required
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import PermissionDenied
 
 
-def Admin(user):
-    return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
+def is_admin(user):
+    
+    if not user.is_authenticated:
+        return False
+    try:
+        return user.userprofile.role == 'Admin'
+    except:
+        return False
 
-def Librarian(user):
-    return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Librarian'
+def is_librarian(user):
+    
+    if not user.is_authenticated:
+        return False
+    try:
+        return user.userprofile.role == 'Librarian'
+    except:
+        return False
 
-def Member(user):
-    return user.is_authenticated and hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
+def is_member(user):
+  
+    if not user.is_authenticated:
+        return False
+    try:
+        return user.userprofile.role == 'Member'
+    except:
+        return False
 
-@user_passes_test(Admin)
+# --- Role-Based Views ---
+
+@login_required
+@user_passes_test(is_admin, login_url='/forbidden/')
 def admin_view(request):
-    return render(request, 'roles/admin_view.html')
+    
+    return render(request, 'admin_view.html')
 
-@user_passes_test(Librarian)
+@login_required
+@user_passes_test(is_librarian, login_url='/forbidden/')
 def librarian_view(request):
-    return render(request, 'roles/librarian_view.html')
+    
+    return render(request, 'librarian_view.html')
 
-@user_passes_test(Member)
+@login_required
+@user_passes_test(is_member, login_url='/forbidden/')
 def member_view(request):
-    return render(request, 'roles/member_view.html')
+    
+    return render(request, 'member_view.html')
+
+def forbidden_view(request):
+    
+    return render(request, 'forbidden.html')
 
 
 
