@@ -1,11 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser 
+from django.contrib.auth.models import BaseUserManager
 from LibraryProject.relationship_app.models import CustomUserManager
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     publication_year = models.DateField()
+    
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, password=None, **extra_fields):
+        if not username:
+            raise ValueError("Users must have a username")
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, username, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(username, password, **extra_fields)
     
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
