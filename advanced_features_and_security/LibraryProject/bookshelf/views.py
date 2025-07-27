@@ -8,5 +8,5 @@ from .models import Book
 def edit_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     # Logic to edit the book (form, POST/GET handling)
-    return render(request, 'edit_book.html', {'book': book})
+    return render(request, 'edit_book.html', {'book_list': book})
 # Create your views here.
