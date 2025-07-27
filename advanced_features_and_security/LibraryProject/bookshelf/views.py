@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404
 from .models import Book
+from .forms import ExampleForm
+
 
 # Only users with 'can_edit' permission can access this view
 @permission_required('library_app.can_edit', raise_exception=True)
