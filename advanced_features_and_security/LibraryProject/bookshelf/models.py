@@ -4,9 +4,19 @@ from django.contrib.auth.models import BaseUserManager
 from LibraryProject.relationship_app.models import CustomUserManager
 
 class Book(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
-    publication_year = models.DateField()
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view book"),
+            ("can_create", "Can create book"),
+            ("can_edit", "Can edit book"),
+            ("can_delete", "Can delete book"),
+        ]
+
+    def __str__(self):
+        return self.title
     
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, password=None, **extra_fields):
