@@ -25,7 +25,20 @@ LOGOUT_REDIRECT_URL = '/login/'
 SECRET_KEY = 'django-insecure-3rc)tdi-4mkebhu^x=^1(v4^5&c0%-t9n@0vox4mpty$wyr%^+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Browser protections
+# These settings protect against XSS, CSRF, and force HTTPS cookies
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", 'https://trustedscripts.example.com')
+CSP_STYLE_SRC = ("'self'", 'https://trustedstyles.example.com')
 
 ALLOWED_HOSTS = []
 
@@ -53,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'

@@ -8,5 +8,10 @@ from .models import Book
 def edit_book(request, book_id):
     books = get_object_or_404(Book, id=book_id)
     # Logic to edit the book (form, POST/GET handling)
-    return render(request, 'edit_book.html', {'book_list': books})
+    return render(request, 'edit_book.html', {'book_list': books})\
+        
+def search_view(request):
+    query = request.GET.get('q', '')
+    results = Book.objects.filter(title__icontains=query)
+    return render(request, 'search.html', {'results': results})
 # Create your views here.
