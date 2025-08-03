@@ -45,7 +45,7 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     # Set TokenAuthentication as the default scheme for the entire project.
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.permissions.IsAuthenticated',
     ],
 }
 
