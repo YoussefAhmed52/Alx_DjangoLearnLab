@@ -10,3 +10,11 @@ def book_list(request):
     for book in books:
         output += f"Title: {book.title}, Author: {book.author}<br>"
     return HttpResponse(output)
+
+from rest_framework.generics import ListAPIView
+from .models import Book
+from .serializers import BookSerializer
+
+class BookList(ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
