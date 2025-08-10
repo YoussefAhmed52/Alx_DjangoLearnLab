@@ -39,11 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',
+    'django_filters'
 ]
 
 # DRF basic configuration (optional but recommended)
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
+        'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],

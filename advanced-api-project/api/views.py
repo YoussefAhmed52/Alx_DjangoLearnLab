@@ -1,16 +1,36 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, filters
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 # 1. List all books
 class BookListView(generics.ListAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]  # Public read access
+    class BookListView(generics.ListAPIView):
+        queryset = Book.objects.all()
+        serializer_class = BookSerializer
+        permission_classes = [permissions.AllowAny]
+
+    # Enable DRF filter backends
+        filter_backends = [
+        DjangoFilterBackend,  # Filtering
+        filters.SearchFilter, # Search
+        filters.OrderingFilter # Ordering
+    ]
+
+    # 1. Filtering fields (exact matches unless overridden)
+        filterset_fields = ['title', 'author', 'published_date']
+
+    # 2. Search fields (partial match, case-insensitive)
+        search_fields = ['title', 'author']
+
+    # 3. Ordering fields
+        ordering_fields = ['title', 'published_date']
+        ordering = ['title']  # Default ordering
 
 # 2. Retrieve a single book
 class BookDetailView(generics.RetrieveAPIView):
