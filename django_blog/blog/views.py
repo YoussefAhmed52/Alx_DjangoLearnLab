@@ -20,7 +20,7 @@ from .models import Post, Comment
 from .forms import CommentForm
 
 # --- Display Post with Comments + Add New Comment ---
-class PostDetailView(DetailView):
+class CommentCreateView(DetailView):
     model = Post
     template_name = "blog/post_detail.html"
     context_object_name = "post"
